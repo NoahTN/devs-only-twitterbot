@@ -64,10 +64,6 @@ outages = OutageAPI()
 a = outages.get_data('Monterey')
 
 
-
-import requests
-import json
-
 class TrafficAPI:
     # get multiple
     def get_data(self):
