@@ -6,7 +6,7 @@ a = input()
 a = a.replace(" ", "%20")
 
 loca=""
-url='http://api.openweathermap.org/data/2.5/weather?q='+a+',us&appid={{apikey}}'
+url='http://api.openweathermap.org/data/2.5/weather?q='+a+',us&appid=c9ed41a4f7c70f576c1527b42d197266'
 
 with urllib.request.urlopen(url) as url:
     s = url.read()
@@ -19,7 +19,8 @@ print(tmp)
 
 main = j["main"]
 temp = main["temp"]
-print(temp)
+tmp1 = int(round(temp - 273.15) * 9/5 + 32)
+print(tmp1)
 
 weather = j["weather"]
 temp = weather[0]
@@ -34,4 +35,5 @@ print(country)
 
 name = j['name']
 print(name)
+
 
