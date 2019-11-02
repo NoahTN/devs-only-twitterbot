@@ -12,21 +12,20 @@ class WeatherAPI:
         print(my_station.aqi)
 
         print('Your Air Quality Is: ')
-        if value < 50:
+
+        if value < 50: #0-50
             print ('Good')
-        elif value > 50 && value < 101:
+        elif 50 < value < 101: #51-100
             print ('Moderate')
-        elif value > 100 && value < 151:
+        elif 100 < value < 151: #101-150
             print ('Unhealthy for sensitive people')
-        elif value > 150 && value < 201
+        elif 150 < value < 201: #151-200
             print ('Unhealthy')
-        elif value > 200 && value < 301:
+        elif 200 < value < 301: #201-300
             print ('Very Unhealthy')
-        elif value > 300:
+        elif value > 300: #301+
             print ('Hazardous')
 
         
-
-
 wapi = WeatherAPI()
 
