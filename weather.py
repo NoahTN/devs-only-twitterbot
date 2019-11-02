@@ -31,9 +31,6 @@ print(country)
 name = j['name']
 print(name)
 
-import json
-import urllib.request
-
 loca=""
 url='http://api.openweathermap.org/data/2.5/weather?q=Los%20angeles,US&appid=c9ed41a4f7c70f576c1527b42d197266'
 
@@ -64,9 +61,6 @@ print(country)
 
 name = j['name']
 print(name)
-
-import json
-import urllib.request
 
 loca=""
 url='http://api.openweathermap.org/data/2.5/weather?q=Monterey,US&appid=c9ed41a4f7c70f576c1527b42d197266'
