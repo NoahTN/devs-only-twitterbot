@@ -1,8 +1,12 @@
 import json
 import urllib.request
 
+a = input()
+
+a = a.replace(" ", "%20")
+
 loca=""
-url='http://api.openweathermap.org/data/2.5/weather?q=san%20jose,us&appid=c9ed41a4f7c70f576c1527b42d197266	'
+url='http://api.openweathermap.org/data/2.5/weather?q='+a+',us&appid=c9ed41a4f7c70f576c1527b42d197266	'
 
 with urllib.request.urlopen(url) as url:
     s = url.read()
@@ -30,5 +34,4 @@ print(country)
 
 name = j['name']
 print(name)
-
 
