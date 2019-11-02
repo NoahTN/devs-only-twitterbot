@@ -29,4 +29,5 @@ class OutageAPI:
 # test
 outages = OutageAPI()
 city = input()
+city = city.title()
 print(outages.get_data(city))
