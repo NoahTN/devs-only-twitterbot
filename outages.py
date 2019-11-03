@@ -17,13 +17,13 @@ class OutageAPI:
         
     def get_all_outages(self):
         if len(self.outage_cities) > 0:
-            result = 'Outages in the past 3 days at '
+            result = 'Power Outages in the past 3 days at '
             for i in range(len(self.outage_cities)-1):
                 result += f'{self.outage_cities.pop()}, '
             result += f'{self.outage_cities.pop()}'
             return result
       
-        return 'No recent outages.'
+        return 'No recent power outages.'
 
     def get_coords(self):
         return self.coords
