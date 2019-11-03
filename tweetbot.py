@@ -4,6 +4,12 @@ import json
 import urllib.request
 import requests
 from datetime import datetime
+from pytz import timezone
+import pytz
+from weather import Weatherapi
+from outage import OutageAPI
+from traffic import TrafficAPI
+
  
 # personal details 
 consumer_key ="ru5kZBYn4bBnO1hMGYRJKsr11"
@@ -18,63 +24,26 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret) 
 api = tweepy.API(auth) 
   
-#weather api 
+#weather
+weather = Weatherapi()
+weather_data = (weather.get_data("Monterey"))
 
-loca=""
-url='http://api.openweathermap.org/data/2.5/weather?q=monterey,us&appid=c9ed41a4f7c70f576c1527b42d197266    '
-
-with urllib.request.urlopen(url) as url:
-    s = url.read()
-
-j = json.loads(s)
-main = j["main"]
-temp = main["temp"]
-tmp = int(round(temp-273))
-
-main = j["main"]
-temp = main["temp"]
-
-weather = j["weather"]
-temp1 = weather[0]
-main = temp1["main"]
-condition = temp1["description"]
-
-sys = j['sys']
-country= sys['country']
-
-name = j['name']
 
 #outage
-class OutageAPI:
-    # get multiple
-    def get_data(self, city):
-        # makes request
-        json_data = requests.get('https://pge-outages.simonwillison.net/pge-outages/outages.json?_labels=on').json()
-        region_set = {}
-        for i in range(len(json_data["rows"])):
-            region_set[json_data["rows"][i]["regionName"]["label"]] = i
-        if city in region_set:
-            yes = json_data["rows"][region_set.get(city)]
-            return yes;
-        else:
-            no = "No outages in your city!"
-            return no;
-
 outages = OutageAPI()
+city = 'Monterey'
+city = city.title()
+outage_data = outages.get_data(city)
 
-a = outages.get_data('Monterey')
 
-
-
-# test
+# Traffic
 traffic = TrafficAPI()
-trafficString = traffic.get_data()
-#^^^ not added to tweet bot as of the current
-
-
+traffic_data = traffic.get_data()
 
 
 #update status of monterey
-api.update_with_media('chunger.png',status =f"{name}, {country}.\n\
-{temp}ºF. Condition: {condition}.\n\
-Outages: {a}. \n ")
+api.update_with_media('chunger.png',status =f"{weather_data}\n\
+Outages: \n\
+{outage_data}. \n\
+Traffic incidents: \n\
+{traffic_data}")
