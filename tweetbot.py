@@ -1,5 +1,6 @@
 # importing the module 
-import tweepy 
+import tweepy
+import os 
 import json
 import urllib.request
 import requests
@@ -7,7 +8,7 @@ from datetime import datetime
 from pytz import timezone
 import pytz
 from weather import Weatherapi
-from outage import OutageAPI
+from outages import OutageAPI
 from traffic import TrafficAPI
 
  
@@ -42,8 +43,14 @@ traffic_data = traffic.get_data()
 
 
 #update status of monterey
-api.update_with_media('chunger.png',status =f"{weather_data}\n\
+filename = "temp.jpg"
+response = requests.get('https://www.mapquestapi.com/staticmap/v5/map?boundingBox=36.74,-121.99,36.5,-121.59&zoom=11&traffic=flow|cons|inc&size=700,500@2x&key=MfFt1rJi4T1sJLHkfIaITmfEzMdO57HM', stream=True)
+with open(filename, 'wb') as image:
+    for chunk in response:
+        image.write(chunk)
+api.update_with_media('temp.jpg',status =f"{weather_data}\n\
 Outages: \n\
 {outage_data}. \n\
 Traffic incidents: \n\
 {traffic_data}")
+os.remove(filename)
