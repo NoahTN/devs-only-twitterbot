@@ -3,7 +3,6 @@ import tweepy
 import json
 import urllib.request
 import requests
-from datetime import datetime
  
 # personal details 
 consumer_key ="ru5kZBYn4bBnO1hMGYRJKsr11"
@@ -21,7 +20,7 @@ api = tweepy.API(auth)
 #weather api 
 
 loca=""
-url='http://api.openweathermap.org/data/2.5/weather?q=monterey,us&appid=c9ed41a4f7c70f576c1527b42d197266	'
+url='http://api.openweathermap.org/data/2.5/weather?q=monterey,us&appid=c9ed41a4f7c70f576c1527b42d197266    '
 
 with urllib.request.urlopen(url) as url:
     s = url.read()
@@ -46,53 +45,53 @@ name = j['name']
 
 #outage
 class OutageAPI:
-    def __init__(self):
-        self.region_codes = {}
-        # should performed only once
-        regions = requests.get('https://pge-outages.simonwillison.net/pge-outages.json?sql=select+*+from+regionName').json()
-        for region in regions["rows"]:
-            self.region_codes[region[1]] = region[0]
-
+    # get multiple
     def get_data(self, city):
-        if city not in self.region_codes:
-            return 'Untracked city.'
-        
-        region_code = self.region_codes[city]
+        # makes request
+        json_data = requests.get('https://pge-outages.simonwillison.net/pge-outages/outages.json?_labels=on').json()
+        region_set = {}
+        for i in range(len(json_data["rows"])):
+            region_set[json_data["rows"][i]["regionName"]["label"]] = i
+        if city in region_set:
+            yes = json_data["rows"][region_set.get(city)]
+            return yes;
+        else:
+            no = "No outages in your city!"
+            return no;
 
-        json_data = requests.get(f'https://pge-outages.simonwillison.net/pge-outages.json?sql=select+*+from+outages+where+%22regionName%22+%3D+%3Ap0+order+by+outageStartTime+desc+limit+1&p0={region_code}').json()
-
-        if len(json_data['rows']) == 1:
-            date_format='%A, %B %d at %I:%M %p'
-            outage_date = datetime.fromtimestamp(json_data['rows'][0][1])
-            if (datetime.now() - outage_date).days < 30:
-                return f'Recent outage on {outage_date.strftime(date_format)} UTC'
-                
-        return 'No recent outages.'
-
-# test
 outages = OutageAPI()
-city = 'monterey'
-city = city.title()
 
-a = outages.get_data(city)
+a = outages.get_data('Monterey')
 
 
 class TrafficAPI:
     # get multiple
     def get_data(self):
         # makes request
-        json_data = requests.get('http://www.mapquestapi.com/traffic/v2/incidents?key=MfFt1rJi4T1sJLHkfIaITmfEzMdO57HM&boundingBox=36.44,121.4,36.34,122.56&filters=construction,inciden').json()
-        print(json_data)
+        json_data = requests.get('http://www.mapquestapi.com/traffic/v2/incidents?key=MfFt1rJi4T1sJLHkfIaITmfEzMdO57HM&boundingBox=39.95,-105.25,39.52,-104.71&filters=construction,incidents').json()
+        incidents = json_data["incidents"]
+        shortDesc = []
+        for i in incidents:
+            #print(i)
+            if i["type"]  > 2 :
+                shortDesc.append(i["shortDesc"])
+                #print(i["shortDesc"])
+        #print(json_data)
+        if len(shortDesc) == 0:
+            masterString = "The roads look clear"
+        else:
+            for x in shortDesc:
+                print(x)
+        
 
 # test
 traffic = TrafficAPI()
-#traffic.get_data()
+traffic.get_data()
+#^^^ not added to tweet bot as of the current
 
 
 
 
 #update status of monterey
-api.update_with_media('{{filename}}',status =f"{name}, {country}.\n\
-{temp}ºF. Condition: {condition}.\n\
-Outages: {a}. \n ")
-
+api.update_status(status =f"{tmp}ºC, {temp}ºF, Condition: {description} in {name}, {country}.\n \
+Outages: {a}")
