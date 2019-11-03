@@ -44,9 +44,11 @@ traffic_data = traffic.get_data()
 map_draw = MapDraw()
 filename = "temp.jpg"
 response = requests.get(map_draw.get_image_url(outages.get_coords()), stream=True)
+os.chdir('/tmp')
 with open(filename, 'wb') as image:
     for chunk in response:
         image.write(chunk)
+os.chdir('..')
 
 # update status
 api.update_with_media(filename,status=f"{weather_data}\n\
@@ -54,4 +56,3 @@ Outages: \n\
 {outage_data}. \n\
 Traffic incidents: \n\
 {traffic_data}")
-os.remove(filename)
