@@ -1,7 +1,7 @@
 import json
 import urllib.request
 
-class Weatherapi:
+class WeatherAPI:
 	def get_data(self, city):
 		city = city.replace(" ", "%20")
 		loca=""

@@ -4,15 +4,11 @@ import os
 import json
 import urllib.request
 import requests
-from datetime import datetime
-from pytz import timezone
-import pytz
-from weather import Weatherapi
+from weather import WeatherAPI
 from outages import OutageAPI
 from traffic import TrafficAPI
 from map_draw import MapDraw
 
- 
 # personal details 
 consumer_key ="ru5kZBYn4bBnO1hMGYRJKsr11"
 consumer_secret ="UjZ6G7PXm2GPLcjNzqCClwjlhMu1mKsA72sHmDaC0wcDF2UOkI"
@@ -27,17 +23,18 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth) 
   
 #weather
-weather = Weatherapi()
+weather = WeatherAPI()
 weather_data = (weather.get_data("Monterey"))
 
 #outage
 outages = OutageAPI()
 city = 'Monterey'
 city = city.title()
-outages.store_coords("Salinas")
-outages.store_coords("Monterey")
-outages.store_coords("Marina")
-outage_data = outages.get_data(city)
+locations = ["Salinas", "Monterey", "Marina"]
+for loc in locations:
+    outages.get_data(loc)
+
+outage_data = outages.get_all_outages()
 
 # Traffic
 traffic = TrafficAPI()
