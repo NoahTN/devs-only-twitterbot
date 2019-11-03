@@ -16,9 +16,3 @@ class OutageAPI:
                 return f'Recent outage on {outage_date.strftime(date_format)} PT'
                 
         return 'No recent outages.'
-
-# test
-outages = OutageAPI()
-city = input()
-city = city.title()
-print(outages.get_data(city))
