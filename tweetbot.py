@@ -89,7 +89,7 @@ class TrafficAPI:
 
 # test
 traffic = TrafficAPI()
-traffic.get_data()
+trafficString = traffic.get_data()
 #^^^ not added to tweet bot as of the current
 
 
