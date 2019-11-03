@@ -36,7 +36,7 @@ temp = main["temp"]
 weather = j["weather"]
 temp1 = weather[0]
 main = temp1["main"]
-description = temp1["description"]
+condition = temp1["description"]
 
 sys = j['sys']
 country= sys['country']
@@ -93,5 +93,11 @@ traffic.get_data()
 
 
 #update status of monterey
+<<<<<<< HEAD
 api.update_status(status =f"{tmp}ºC, {temp}ºF, Condition: {description} in {name}, {country}.\n \
 Outages: {a}")
+=======
+api.update_with_media('chunger.png',status =f"{name}, {country}.\n\
+{temp}ºF. Condition: {condition}.\n\
+Outages: {a}. \n ")
+>>>>>>> d7326f01be54ef5d3826165054113c7574cfeb61
