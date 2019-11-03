@@ -81,8 +81,10 @@ class TrafficAPI:
         if len(shortDesc) == 0:
             masterString = "The roads look clear"
         else:
-            for x in shortDesc:
-                print(x)
+            for x in range(2):
+                masterString += shortDesc[x]
+                masterString += "\n"
+        return masterString
         
 
 # test
