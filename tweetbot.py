@@ -21,7 +21,7 @@ api = tweepy.API(auth)
 #weather api 
 
 loca=""
-url='http://api.openweathermap.org/data/2.5/weather?q=monterey,us&appid=c9ed41a4f7c70f576c1527b42d197266	'
+url='http://api.openweathermap.org/data/2.5/weather?q=monterey,us&appid=c9ed41a4f7c70f576c1527b42d197266    '
 
 with urllib.request.urlopen(url) as url:
     s = url.read()
@@ -37,7 +37,7 @@ temp = main["temp"]
 weather = j["weather"]
 temp1 = weather[0]
 main = temp1["main"]
-description = temp1["description"]
+condition = temp1["description"]
 
 sys = j['sys']
 country= sys['country']
@@ -92,7 +92,6 @@ traffic = TrafficAPI()
 
 
 #update status of monterey
-api.update_with_media('{{filename}}',status =f"{name}, {country}.\n\
+api.update_with_media('chunger.png',status =f"{name}, {country}.\n\
 {temp}ºF. Condition: {condition}.\n\
 Outages: {a}. \n ")
-
