@@ -5,7 +5,7 @@ class TrafficAPI:
     # get multiple
     def get_data(self):
         # makes request
-        json_data = requests.get('http://www.mapquestapi.com/traffic/v2/incidents?key=MfFt1rJi4T1sJLHkfIaITmfEzMdO57HM&boundingBox=39.95,-105.25,39.52,-104.71&filters=construction,incidents').json()
+        json_data = requests.get('http://www.mapquestapi.com/traffic/v2/incidents?key=MfFt1rJi4T1sJLHkfIaITmfEzMdO57HM&boundingBox=36.74,-121.99,36.5,-121.59&filters=construction,incidents').json()
         incidents = json_data["incidents"]
         shortDesc = []
         for i in incidents:
@@ -22,4 +22,3 @@ class TrafficAPI:
                 masterString += shortDesc[x]
                 masterString += "\n"
         return masterString
-        
