@@ -17,10 +17,9 @@ class TrafficAPI:
         if len(shortDesc) == 0:
             masterString = "The roads look clear"
         else:
-            for x in shortDesc:
-                print(x)
+            masterString = ""
+            for x in range(min(len(shortDesc), 2)):
+                masterString += shortDesc[x]
+                masterString += "\n"
+        return masterString
         
-
-# test
-traffic = TrafficAPI()
-traffic.get_data()
