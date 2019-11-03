@@ -14,7 +14,7 @@ class OutageAPI:
         if len(json_data['rows']) != 0:
             date_format='%A, %B %d at %I:%M %p'
             outage_date = datetime.fromtimestamp(json_data['rows'][0][1])
-            if (datetime.now() - outage_date).days < 8:
+            if (datetime.now() - outage_date).days < 3:
                 outage_date = outage_date.astimezone(timezone('US/Pacific'))
                 return f'Recent outage on {outage_date.strftime(date_format)} PT'
                 
@@ -26,7 +26,7 @@ class OutageAPI:
         if len(json_data['rows']) != 0:
             for outage in json_data['rows']:
                 day_diff = datetime.now() - datetime.fromtimestamp(outage[1])
-                if day_diff.days < 8:
+                if day_diff.days < 3:
                     self.coords.append([outage[-2],outage[-1]])
 
     def get_coords(self):
