@@ -10,6 +10,7 @@ import pytz
 from weather import Weatherapi
 from outages import OutageAPI
 from traffic import TrafficAPI
+from map_draw import MapDraw
 
  
 # personal details 
@@ -29,26 +30,29 @@ api = tweepy.API(auth)
 weather = Weatherapi()
 weather_data = (weather.get_data("Monterey"))
 
-
 #outage
 outages = OutageAPI()
 city = 'Monterey'
 city = city.title()
+outages.store_coords("Salinas")
+outages.store_coords("Monterey")
+outages.store_coords("Marina")
 outage_data = outages.get_data(city)
-
 
 # Traffic
 traffic = TrafficAPI()
 traffic_data = traffic.get_data()
 
-
-#update status of monterey
+# draw map image
+map_draw = MapDraw()
 filename = "temp.jpg"
-response = requests.get('https://www.mapquestapi.com/staticmap/v5/map?boundingBox=36.74,-121.99,36.5,-121.59&zoom=11&traffic=flow|cons|inc&size=700,500@2x&key=MfFt1rJi4T1sJLHkfIaITmfEzMdO57HM', stream=True)
+response = requests.get(map_draw.get_image_url(outages.get_coords()), stream=True)
 with open(filename, 'wb') as image:
     for chunk in response:
         image.write(chunk)
-api.update_with_media('temp.jpg',status =f"{weather_data}\n\
+
+# update status
+api.update_with_media(filename,status=f"{weather_data}\n\
 Outages: \n\
 {outage_data}. \n\
 Traffic incidents: \n\

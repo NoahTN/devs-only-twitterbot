@@ -3,7 +3,7 @@ import urllib.request
 
 class Weatherapi:
 	def get_data(self, city):
-
+		city = city.replace(" ", "%20")
 		loca=""
 		url='http://api.openweathermap.org/data/2.5/weather?q='+city+',us&appid=c9ed41a4f7c70f576c1527b42d197266'
 
@@ -31,8 +31,3 @@ class Weatherapi:
 		a = (f"{name}, {country}.\n{temp}ºF. Condition: {condition}.")
 
 		return a
-
-weather = Weatherapi()
-city = input()
-city = city.replace(" ","%20")
-print(weather.get_data(city))
