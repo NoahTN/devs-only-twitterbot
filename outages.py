@@ -13,7 +13,7 @@ class OutageAPI:
             outage_date = datetime.fromtimestamp(json_data['rows'][0][1])
             if (datetime.now() - outage_date).days < 30:
                 outage_date = outage_date.astimezone(timezone('US/Pacific'))
-                return f'Recent outage on {outage_date.strftime(date_format)} UTC'
+                return f'Recent outage on {outage_date.strftime(date_format)} PT'
                 
         return 'No recent outages.'
 
